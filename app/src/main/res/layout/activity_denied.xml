@@ -6,4 +6,16 @@
     android:layout_height="match_parent"
     tools:context="thosekids.com.finder_sohacks4.DeniedActivity">
 
+
+    <TextView
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:text="Your request has been denied."
+        android:textAlignment="center"
+        android:textSize="30dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="198dp" />
+
+
+
 </android.support.constraint.ConstraintLayout>
