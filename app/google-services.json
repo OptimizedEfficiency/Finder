@@ -1,58 +1,27 @@
 {
   "project_info": {
-    "project_number": "272450110335",
-    "firebase_url": "https://myfirebaseauthapp-9b991.firebaseio.com",
-    "project_id": "myfirebaseauthapp-9b991",
-    "storage_bucket": "myfirebaseauthapp-9b991.appspot.com"
+    "project_number": "517112423412",
+    "firebase_url": "https://finder-e342b.firebaseio.com",
+    "project_id": "finder-e342b",
+    "storage_bucket": "finder-e342b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:272450110335:android:a79ee19bf52a1eb0",
-        "android_client_info": {
-          "package_name": "com.example.drewneely.firebaseauthdemo"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "272450110335-t0ju76kiap4l6dmu46fvhura36or6u1q.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBUrQ0oklNQll09CHnC4BPT1STB1vY0QeI"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:272450110335:android:10ba1516e5a54c2d",
+        "mobilesdk_app_id": "1:517112423412:android:10ba1516e5a54c2d",
         "android_client_info": {
           "package_name": "thosekids.com.finder_sohacks4"
         }
       },
       "oauth_client": [
         {
-          "client_id": "272450110335-t0ju76kiap4l6dmu46fvhura36or6u1q.apps.googleusercontent.com",
+          "client_id": "517112423412-6l43pi4tkpfmgj4d2il13cfu8h6oe7qv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBUrQ0oklNQll09CHnC4BPT1STB1vY0QeI"
+          "current_key": "AIzaSyC8jtoOupRW4HRzfIcyXqRXcuI8k8ik93Q"
         }
       ],
       "services": {
