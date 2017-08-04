@@ -9,6 +9,36 @@
     android:paddingTop="16dp"
     tools:context="thosekids.com.finder_sohacks4.NavigationActivity">
 
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="Map" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Compass" />
+
+<!--
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        android:background="@color/colorPrimary"
+        android:tabMode="scrollable"
+        android:tabTextColor="#ccc"
+        android:tabIndicatorColor="@android:color/white"
+        android:tabSelectedTextColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+-->
+
     <ImageView
         android:id="@+id/compass"
         android:layout_centerInParent="true"
@@ -17,3 +47,4 @@
         android:layout_height="300dp" />
 
 </RelativeLayout>
+
