@@ -58,6 +58,9 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback{
     }*/
 
 
+
+
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -72,6 +75,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback{
         }
         longitude = location.getLongitude();
         latitude = location.getLatitude();
+        System.out.println(longitude);
     }
 
     @Override
