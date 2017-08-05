@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         signOutBtn = (Button) findViewById(R.id.signOutBtn);
 
         signOutBtn.setOnClickListener(this);
+
 
     }
 

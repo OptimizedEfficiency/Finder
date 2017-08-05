@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class NavigationActivityMain extends AppCompatActivity {
 
     /**
@@ -31,6 +34,7 @@ public class NavigationActivityMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigationmain);
+        final long period = 3000;
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
@@ -45,6 +49,20 @@ public class NavigationActivityMain extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println();
+                updateLocation();// do your task here
+            }
+        }, 0, period);
+
+
+    }
+
+
+    public void updateLocation(){
 
     }
 
