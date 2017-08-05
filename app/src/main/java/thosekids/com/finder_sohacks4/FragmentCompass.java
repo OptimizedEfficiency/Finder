@@ -117,6 +117,9 @@ public class FragmentCompass extends Fragment implements SensorEventListener {
         degree += geoField.getDeclination();
 
         float bearing = location.bearingTo(target);
+        if(NavigationActivityMain.target != null) {
+            bearing = location.bearingTo(NavigationActivityMain.target);
+        }
         degree = (bearing - degree) * -1;
         degree = normalizeDegree(degree);
 

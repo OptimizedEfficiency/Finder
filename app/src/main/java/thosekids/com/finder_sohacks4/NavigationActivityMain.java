@@ -1,5 +1,7 @@
 package thosekids.com.finder_sohacks4;
 
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -10,12 +12,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static java.security.AccessController.getContext;
 
 public class NavigationActivityMain extends AppCompatActivity {
 
     static public String userTrackingId;
+    static public Location target;
+
+    FirebaseAuth firebaseAuth;
+    DatabaseReference databaseReference;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -36,6 +52,11 @@ public class NavigationActivityMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigationmain);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
+
         final long period = 3000;
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -56,7 +77,9 @@ public class NavigationActivityMain extends AppCompatActivity {
             @Override
             public void run() {
                 System.out.println();
-                updateLocation();// do your task here
+                try {
+                    updateLocation();// do your task here
+                }catch(Exception e) {}
             }
         }, 0, period);
 
@@ -66,7 +89,62 @@ public class NavigationActivityMain extends AppCompatActivity {
 
     public void updateLocation(){
 
+        System.out.println("Updating Location");
+
+        final Location loc = getLastKnownLocation();
+        LocationCoordinate pos = new LocationCoordinate(loc.getLongitude(), loc.getLatitude());
+        databaseReference.child("Locations").child(firebaseAuth.getCurrentUser().getUid()).setValue(pos);
+        System.out.println("My location: (" + loc.getLatitude() + " , " + loc.getLongitude() + ")");
+
+
+//        databaseReference.child("Locations").child(userTrackingId).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                double latitude = Double.parseDouble(dataSnapshot.child("latitude").getValue().toString());
+//                double longgitude = Double.parseDouble(dataSnapshot.child("longitude").getValue().toString());
+//                loc.setLongitude(longitude);
+//                loc.setLatitude(latitude);
+//                target = loc;
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+
+        try {
+            System.out.println("Their location: (" + target.getLatitude() + " , " + target.getLongitude() + ")");
+        } catch(Exception e) {}
+
     }
+
+    LocationManager mLocationManager;
+    Location location;
+    double longitude;
+    double latitude;
+
+    private Location getLastKnownLocation() {
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            Location l = null;
+            try {
+                l = mLocationManager.getLastKnownLocation(provider);
+            } catch(SecurityException e) {
+                e.printStackTrace();
+            }
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
+    }
+
 
 
     @Override
