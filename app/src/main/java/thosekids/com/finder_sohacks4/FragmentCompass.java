@@ -42,16 +42,19 @@ public class FragmentCompass extends Fragment implements SensorEventListener{
             latLng = new LatLng(location.getLatitude(), location.getLongitude()); }
     }*/
 
-    LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-    double longitude = location.getLongitude();
-    double latitude = location.getLatitude();
+    LocationManager lm;
+    Location location;
+    double longitude;
+    double latitude;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //            setContentView(R.layout.activity_fragmentcompass);
-
+        lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        longitude = location.getLongitude();
+        latitude = location.getLatitude();
 
         mSensorManager = (SensorManager) getActivity().getSystemService(SENSOR_SERVICE);
 

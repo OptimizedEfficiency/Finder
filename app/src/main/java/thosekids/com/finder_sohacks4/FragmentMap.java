@@ -46,10 +46,10 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback{
         return view;
     }
 
-    LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-    double longitude = location.getLongitude();
-    double latitude = location.getLatitude();
+    LocationManager lm;
+    Location location;
+    double longitude;
+    double latitude;
 
 
 /*    public void onLocationChanged(Location location) {
@@ -63,6 +63,11 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback{
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment = ((SupportMapFragment)this.getChildFragmentManager().findFragmentById(R.id.map));
         mapFragment.getMapAsync(this);
+
+        lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        longitude = location.getLongitude();
+        latitude = location.getLatitude();
     }
 
     @Override
