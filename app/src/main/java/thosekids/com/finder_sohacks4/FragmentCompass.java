@@ -1,22 +1,30 @@
 package thosekids.com.finder_sohacks4;
 
+import android.content.Context;
+import android.hardware.GeomagneticField;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.hardware.SensorManager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.ImageView;
 import android.hardware.SensorEventListener;
-import android.view.animation.*;
-import android.location.*;
-import android.hardware.*;
-import android.content.*;
+import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 
-public class NavigationActivity extends AppCompatActivity implements SensorEventListener {
+import static android.content.Context.SENSOR_SERVICE;
+
+public class FragmentCompass extends Fragment implements SensorEventListener{
+
     private ImageView image;
     private float currentDegree = 0f;
     private SensorManager mSensorManager;
-    private Location location = new Location("A");
+    private Location locationA = new Location("A");
     private Location target = new Location("B");
     private LocationManager locationManager;
     GeomagneticField geoField = new GeomagneticField(
@@ -25,25 +33,34 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             (float) target.getAltitude(),
             System.currentTimeMillis());
     //test comment
+//    private LatLng latLng;
+
+
+
+ /*   public void onLocationChanged(Location location) {
+        if(location!=null){
+            latLng = new LatLng(location.getLatitude(), location.getLongitude()); }
+    }*/
+
+    LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    double longitude = location.getLongitude();
+    double latitude = location.getLatitude();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//            setContentView(R.layout.activity_fragmentcompass);
 
-        image = (ImageView) findViewById(R.id.compass);
 
-        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-
-        location.setLatitude(29.464093);
-        location.setLongitude(-98.483757);
+        mSensorManager = (SensorManager) getActivity().getSystemService(SENSOR_SERVICE);
 
         target.setLatitude(29.463362);
         target.setLongitude(-98.484409);
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
@@ -51,7 +68,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(this); // to stop the listener and save battery
     }
@@ -97,4 +114,14 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // not in use
     }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_fragmentcompass, container, false);
+        image = (ImageView) view.findViewById(R.id.compass);
+
+        return view;
+
+    }
+
+
 }
