@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        System.out.println(firebaseAuth.getCurrentUser().getEmail());
+        //System.out.println(firebaseAuth.getCurrentUser().getEmail());
 
         if(firebaseAuth.getCurrentUser() == null) {
             System.out.println("No user logged in. Switching to Login Activity.");
