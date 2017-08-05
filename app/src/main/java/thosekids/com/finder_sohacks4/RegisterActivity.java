@@ -22,13 +22,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class RegisterActivity extends AppCompatActivity  {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.name) EditText editTextName;
-    @BindView(R.id.email) EditText editTextEmail;
-    @BindView(R.id.password) EditText editTextPassword;
-    @BindView(R.id.register) Button register;
-    @BindView(R.id.loginNow) TextView loginNow;
+    EditText editTextName;
+    EditText editTextEmail;
+    EditText editTextPassword;
+    Button register;
+    TextView loginNow;
 
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
@@ -39,12 +39,20 @@ public class RegisterActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        editTextName = (EditText) findViewById(R.id.name);
+        editTextEmail = (EditText) findViewById(R.id.email);
+        editTextPassword = (EditText) findViewById(R.id.password);
+        register = (Button) findViewById(R.id.register);
+        loginNow = (TextView) findViewById(R.id.loginNow);
+
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
         progressDialog = new ProgressDialog(this);
+
+        register.setOnClickListener(this);
+        loginNow.setOnClickListener(this);
     }
 
-    @OnClick(R.id.register)
     public void registerClicked() {
         String name = editTextName.getText().toString().trim();
         String email = editTextEmail.getText().toString().trim();
@@ -77,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity  {
 
                         if(task.isSuccessful()) {
                             UserInformation userInformation = new UserInformation(editTextName.getText().toString().trim());
-                            databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getEmail()).setValue(userInformation);
+                            databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userInformation);
                             finish();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
@@ -91,8 +99,16 @@ public class RegisterActivity extends AppCompatActivity  {
 
     }
 
-    @OnClick(R.id.loginNow)
     public void loginNowClicked() {
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view == register) {
+            registerClicked();
+        } else if(view == loginNow) {
+            loginNowClicked();
+        }
     }
 }

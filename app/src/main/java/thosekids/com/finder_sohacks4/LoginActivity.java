@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,31 +20,48 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.email) EditText editTextEmail;
-    @BindView(R.id.password) EditText editTextPassword;
-    @BindView(R.id.login) Button login;
-    @BindView(R.id.registerNow) TextView registerNow;
+    private EditText editTextEmail;
+    private EditText editTextPassword;
+    private Button login;
+    private TextView registerNow;
 
-    FirebaseAuth firebaseAuth;
-    DatabaseReference databaseReference;
-    ProgressDialog progressDialog;
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        editTextEmail = (EditText) findViewById(R.id.email);
+        editTextPassword = (EditText) findViewById(R.id.password);
+        login = (Button) findViewById(R.id.login);
+        registerNow = (TextView) findViewById(R.id.registerNow);
+
+
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
         progressDialog = new ProgressDialog(this);
+
+        login.setOnClickListener(this);
+        registerNow.setOnClickListener(this);
     }
 
-    @OnClick(R.id.register)
-    public void registerClicked() {
+
+
+    public void registerNowClicked() {
+        startActivity(new Intent(this, RegisterActivity.class));
+    }
+
+
+
+    public void loginClicked() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
@@ -81,8 +99,13 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.registerNow)
-    public void loginNowClicked() {
-        startActivity(new Intent(this, RegisterActivity.class));
+
+    @Override
+    public void onClick(View view) {
+        if(view == registerNow) {
+            registerNowClicked();
+        } else if(view == login) {
+            loginClicked();
+        }
     }
 }
