@@ -49,6 +49,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         databaseReference = FirebaseDatabase.getInstance().getReference();
         progressDialog = new ProgressDialog(this);
 
+        if(firebaseAuth.getCurrentUser() != null) {
+            startActivity(new Intent(this, MainActivity.class));
+        }
+
         login.setOnClickListener(this);
         registerNow.setOnClickListener(this);
     }

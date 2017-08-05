@@ -49,6 +49,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         databaseReference = FirebaseDatabase.getInstance().getReference();
         progressDialog = new ProgressDialog(this);
 
+        if(firebaseAuth.getCurrentUser() != null) {
+            startActivity(new Intent(this, MainActivity.class));
+        }
+
         register.setOnClickListener(this);
         loginNow.setOnClickListener(this);
     }
@@ -85,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                         if(task.isSuccessful()) {
                             UserInformation userInformation = new UserInformation(editTextName.getText().toString().trim());
-                            databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userInformation);
+                            databaseReference.child("UserInformation").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userInformation);
                             finish();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
