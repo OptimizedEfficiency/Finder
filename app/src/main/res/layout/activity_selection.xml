@@ -26,6 +26,12 @@
             android:layout_height="427dp"
              />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Below Listview"
+            />
+
     </LinearLayout>
 
 

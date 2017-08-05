@@ -21,7 +21,7 @@ public class SelectionActivity extends AppCompatActivity {
 
         String[] users = {"U 1", "U 2", "U 3"};
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(userList.getContext(), android.R.layout.simple_list_item_1, users);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, users);
         userList.setAdapter(adapter);
 
 

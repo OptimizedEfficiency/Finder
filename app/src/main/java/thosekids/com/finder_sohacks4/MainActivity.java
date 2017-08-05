@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @OnClick(R.id.StartNav)
     public void toSelectionActivity(){
-        setContentView(R.layout.activity_selection);
+        startActivity(new Intent(this, SelectionActivity.class));
     }
 
     @Override
