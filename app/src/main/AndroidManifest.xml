@@ -11,6 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDlp2LjzMPlaBkipNrJn_ELKGZOR93gFSE" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +25,7 @@
         <activity android:name=".SelectionActivity" />
         <activity android:name=".WaitingActivity" />
         <activity android:name=".DeniedActivity" />
-        <activity android:name=".NavigationActivity" />
+        <activity android:name=".NavigationActivityMain" />
         <activity android:name=".FinishedActivity" />
         <activity android:name=".RegisterActivity"></activity>
     </application>
