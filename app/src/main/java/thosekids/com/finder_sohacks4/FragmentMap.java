@@ -65,7 +65,11 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback{
         mapFragment.getMapAsync(this);
 
         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        try {
+            location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        } catch(SecurityException e) {
+            e.printStackTrace();
+        }
         longitude = location.getLongitude();
         latitude = location.getLatitude();
     }
