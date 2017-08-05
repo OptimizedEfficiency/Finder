@@ -15,6 +15,8 @@ import java.util.TimerTask;
 
 public class NavigationActivityMain extends AppCompatActivity {
 
+    static public String userTrackingId;
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a

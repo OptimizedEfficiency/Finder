@@ -1,5 +1,6 @@
 package thosekids.com.finder_sohacks4;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,7 @@ public class SelectionActivity extends AppCompatActivity {
     private ListView userList;
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
+    private ArrayList<String> ids;
     private ArrayList<String> users;
 
     @Override
@@ -56,17 +58,22 @@ public class SelectionActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             System.out.println(position);
-
+            NavigationActivityMain.userTrackingId = ids.get(position);
+            finish();
+            startActivity(new Intent(getApplicationContext(), NavigationActivityMain.class));
         }
     }
 
     public void showUsers(DataSnapshot dataSnapshot) {
         System.out.println("Show Users called");
-        ArrayList<String> users = new ArrayList<String>();
+        ids = new ArrayList<String>();
+        users = new ArrayList<String>();
         for(DataSnapshot ds : dataSnapshot.getChildren()) {
             System.out.println("Inside for loop");
             System.out.println(ds.child("name").getValue());
+            System.out.println(ds.getKey().toString());
             users.add(ds.child("name").getValue().toString());
+            ids.add(ds.getKey().toString());
         }
         displayUsernames(users);
     }
@@ -74,7 +81,6 @@ public class SelectionActivity extends AppCompatActivity {
     public void displayUsernames(ArrayList<String> users) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, users);
         userList.setAdapter(adapter);
-        this.users = users;
     }
 
 
