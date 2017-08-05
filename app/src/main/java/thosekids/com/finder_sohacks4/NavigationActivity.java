@@ -24,6 +24,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             (float) target.getLongitude(),
             (float) target.getAltitude(),
             System.currentTimeMillis());
+    //test comment
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
