@@ -7,8 +7,10 @@ package thosekids.com.finder_sohacks4;
 public class UserInformation {
 
     public String name;
+    public String username;
 
-    public UserInformation(String name) {
+    public UserInformation(String name, String username) {
         this.name = name;
+        this.username = username;
     }
 }

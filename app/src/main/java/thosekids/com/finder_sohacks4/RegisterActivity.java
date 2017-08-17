@@ -16,18 +16,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import butterknife.BindView;
-import butterknife.OnClick;
+import com.google.firebase.database.ValueEventListener;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText editTextName;
+    EditText editTextUsername;
     EditText editTextEmail;
     EditText editTextPassword;
-    EditText reenterPassword;
+    EditText editTextReenterPassword;
     Button register;
     TextView loginNow;
 
@@ -41,9 +42,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_register);
 
         editTextName = (EditText) findViewById(R.id.name);
+        editTextUsername = (EditText) findViewById(R.id.username);
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
-        reenterPassword = (EditText) findViewById(R.id.confirmPassword);
+        editTextReenterPassword = (EditText) findViewById(R.id.confirmPassword);
         register = (Button) findViewById(R.id.register);
         loginNow = (TextView) findViewById(R.id.loginNow);
 
@@ -60,59 +62,116 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void registerClicked() {
-        String name = editTextName.getText().toString().trim();
-        String email = editTextEmail.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
-        String password2 = reenterPassword.getText().toString().trim();
+        final String name = editTextName.getText().toString().trim();
+        final String username = editTextUsername.getText().toString().trim();
+        final String email = editTextEmail.getText().toString().trim();
+        final String password = editTextPassword.getText().toString().trim();
+        final String password2 = editTextReenterPassword.getText().toString().trim();
 
-        if(TextUtils.isEmpty(name)) {
-            Toast.makeText(this, "Please enter name", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        if(TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        System.out.println("About to define event listener");
 
-        if(TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        databaseReference.child("UserInformation").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-        if(!password.equals(password2)) {
-            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-            return;
-        }
+                System.out.println("Inside Event Listener");
 
-        progressDialog.setMessage("Registering User...");
-        progressDialog.show();
+                if(TextUtils.isEmpty(name)) {
+                    Toast.makeText(RegisterActivity.this, "Please enter name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                if(TextUtils.isEmpty(email)) {
+                    Toast.makeText(RegisterActivity.this, "Please enter email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                        progressDialog.dismiss();
+                if(TextUtils.isEmpty(password)) {
+                    Toast.makeText(RegisterActivity.this, "Please enter password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                        if(task.isSuccessful()) {
-                            UserInformation userInformation = new UserInformation(editTextName.getText().toString().trim());
-                            databaseReference.child("UserInformation").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userInformation);
-                            finish();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        } else {
-                            progressDialog.hide();
-                            Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
-                        }
-
+                for(DataSnapshot userInfo : dataSnapshot.getChildren()) {
+                    if(username.equals(userInfo.child("username").getValue())) {
+                        Toast.makeText(RegisterActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
+                        return;
                     }
-                });
+                }
+
+                if(usernameIsInUse(username)) {
+                    Toast.makeText(RegisterActivity.this, "Username is already in already in use", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(!password.equals(password2)) {
+                    Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
 
+                progressDialog.setMessage("Registering User...");
+                progressDialog.show();
+
+                firebaseAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                progressDialog.dismiss();
+
+                                if(task.isSuccessful()) {
+                                    UserInformation userInformation = new UserInformation(name, username);
+                                    databaseReference.child("UserInformation").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userInformation);
+                                    finish();
+                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                } else {
+                                    progressDialog.hide();
+                                    Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println(databaseError.toString());
+                System.out.println("Error");
+            }
+        });
+
+        System.out.println("Outside EventListener");
     }
 
     public void loginNowClicked() {
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    public boolean usernameIsInUse(final String username) {
+
+        final boolean[] inUse = {false};
+
+        System.out.println("Adding Listener");
+        databaseReference.child("UserInformation").addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("Running Listener");
+                for(DataSnapshot userInfo : dataSnapshot.getChildren()) {
+                    if(username.equals(userInfo.child("username").getValue())) {
+                        inUse[0] = true;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        System.out.println("Added Listener. Returning result.");
+        return inUse[0];
     }
 
     @Override
