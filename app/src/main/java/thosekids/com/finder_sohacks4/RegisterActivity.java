@@ -27,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     EditText editTextName;
     EditText editTextEmail;
     EditText editTextPassword;
+    EditText reenterPassword;
     Button register;
     TextView loginNow;
 
@@ -42,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         editTextName = (EditText) findViewById(R.id.name);
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
+        reenterPassword = (EditText) findViewById(R.id.confirmPassword);
         register = (Button) findViewById(R.id.register);
         loginNow = (TextView) findViewById(R.id.loginNow);
 
@@ -61,6 +63,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String name = editTextName.getText().toString().trim();
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+        String password2 = reenterPassword.getText().toString().trim();
 
         if(TextUtils.isEmpty(name)) {
             Toast.makeText(this, "Please enter name", Toast.LENGTH_SHORT).show();
@@ -74,6 +77,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if(TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(!password.equals(password2)) {
+            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
             return;
         }
 

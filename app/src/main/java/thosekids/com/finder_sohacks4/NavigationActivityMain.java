@@ -23,9 +23,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static java.security.AccessController.getContext;
-
 public class NavigationActivityMain extends AppCompatActivity {
+
+    public Timer updateTimer = new Timer();
+
 
     static public String userTrackingId;
     static public Location target;
@@ -73,12 +74,13 @@ public class NavigationActivityMain extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
 
-        new Timer().schedule(new TimerTask() {
+        updateTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 System.out.println();
                 try {
-                    updateLocation();// do your task here
+                    sendLocation();
+//                    updateTargetLocation(); // !!!
                 }catch(Exception e) {}
             }
         }, 0, period);
@@ -87,35 +89,42 @@ public class NavigationActivityMain extends AppCompatActivity {
     }
 
 
-    public void updateLocation(){
+    public void sendLocation(){
 
         System.out.println("Updating Location");
 
         final Location loc = getLastKnownLocation();
-        LocationCoordinate pos = new LocationCoordinate(loc.getLongitude(), loc.getLatitude());
+        LocationUpdate pos = new LocationUpdate(loc.getLongitude(), loc.getLatitude());
         databaseReference.child("Locations").child(firebaseAuth.getCurrentUser().getUid()).setValue(pos);
         System.out.println("My location: (" + loc.getLatitude() + " , " + loc.getLongitude() + ")");
 
 
-//        databaseReference.child("Locations").child(userTrackingId).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                double latitude = Double.parseDouble(dataSnapshot.child("latitude").getValue().toString());
-//                double longgitude = Double.parseDouble(dataSnapshot.child("longitude").getValue().toString());
-//                loc.setLongitude(longitude);
-//                loc.setLatitude(latitude);
-//                target = loc;
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+
 
         try {
             System.out.println("Their location: (" + target.getLatitude() + " , " + target.getLongitude() + ")");
         } catch(Exception e) {}
 
+    }
+
+    public void updateTargetLocation() {
+
+        // !!!
+        databaseReference.child("Locations").child(userTrackingId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                double latitude = Double.parseDouble(dataSnapshot.child("latitude").getValue().toString());
+                double longgitude = Double.parseDouble(dataSnapshot.child("longitude").getValue().toString());
+                Location loc = new Location("");
+                loc.setLongitude(longitude);
+                loc.setLatitude(latitude);
+                target = loc;
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     LocationManager mLocationManager;

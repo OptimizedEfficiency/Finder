@@ -39,10 +39,19 @@
 
         <EditText
             android:id="@+id/password"
+            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:hint="Enter Password"/>
+
+        <EditText
+            android:id="@+id/confirmPassword"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:hint="Re-enter Password"/>
 
         <Button
             android:id="@+id/register"
