@@ -16,6 +16,7 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth firebaseAuth;
+    private Button myFriendsBtn;
     private Button signOutBtn;
 
     @OnClick(R.id.StartNav)
@@ -40,12 +41,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(firebaseAuth.getCurrentUser() == null) {
             System.out.println("No user logged in. Switching to Login Activity.");
+            finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
 
         signOutBtn = (Button) findViewById(R.id.signOutBtn);
+        myFriendsBtn = (Button) findViewById(R.id.myFriends);
 
         signOutBtn.setOnClickListener(this);
+        myFriendsBtn.setOnClickListener(this);
 
 
     }
@@ -55,7 +59,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(view == signOutBtn) {
             System.out.println("Logging out");
             firebaseAuth.signOut();
+            finish();
             startActivity(new Intent(this, LoginActivity.class));
+        } else if(view == myFriendsBtn) {
+            startActivity(new Intent(this, FriendActivity.class));
         }
     }
 

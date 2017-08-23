@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="thosekids.com.finder_sohacks4">
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -14,6 +15,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDlp2LjzMPlaBkipNrJn_ELKGZOR93gFSE" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +29,9 @@
         <activity android:name=".DeniedActivity" />
         <activity android:name=".NavigationActivityMain" />
         <activity android:name=".FinishedActivity" />
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".FriendActivity" />
+        <activity android:name=".AddFriendActivity"></activity>
     </application>
 
 </manifest>

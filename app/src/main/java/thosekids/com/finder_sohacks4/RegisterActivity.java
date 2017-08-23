@@ -54,6 +54,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         progressDialog = new ProgressDialog(this);
 
         if(firebaseAuth.getCurrentUser() != null) {
+            finish();
+            getParent().finish();
             startActivity(new Intent(this, MainActivity.class));
         }
 
@@ -145,6 +147,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void loginNowClicked() {
+        finish();
         startActivity(new Intent(this, LoginActivity.class));
     }
 

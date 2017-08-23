@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialog = new ProgressDialog(this);
 
         if(firebaseAuth.getCurrentUser() != null) {
+            finish();
             startActivity(new Intent(this, MainActivity.class));
         }
 
@@ -60,10 +61,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     public void registerNowClicked() {
+        finish();
         startActivity(new Intent(this, RegisterActivity.class));
     }
-
-
 
     public void loginClicked() {
         String email = editTextEmail.getText().toString().trim();
