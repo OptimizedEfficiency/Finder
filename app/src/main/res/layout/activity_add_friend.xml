@@ -6,4 +6,28 @@
     android:layout_height="match_parent"
     tools:context="thosekids.com.finder_sohacks4.AddFriendActivity">
 
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp">
+
+        <EditText
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter friends name or username"
+            android:textSize="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="20dp"/>
+
+        <ListView
+            android:id="@+id/matchesList"
+            android:layout_width="match_parent"
+            android:layout_height="410dp" />
+
+    </LinearLayout>
+
+
 </android.support.constraint.ConstraintLayout>

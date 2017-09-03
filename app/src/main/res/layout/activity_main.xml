@@ -34,7 +34,7 @@
             android:id="@+id/myFriends"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="My Firends"
+            android:text="My Friends"
             />
 
         <Button
